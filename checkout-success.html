@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Demo</title>
+
+  <!-- BOOTSTRAP CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- BOOTSTRAP JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@700&display=swap" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+  <main id="app">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">Shop Demo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#shirts">Shirts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#socks">Socks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#hats">Hats</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#review">Review Us!</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Button trigger modal -->
+        <button style="float:right;" class="mt-3 btn btn-primary cart-nav-btn" data-bs-toggle="modal" data-bs-target="#cartModal" title="Check your cart">Cart: {{cart.length}}</button>
+      </div>
+    </nav>
+    <!-- <header class="container-fluid text-light">
+        <p class="cart-nav-btn">Cart: {{cart.length}}</p>
+        <h1 class="text-center">Shop Demo | <span class="fs-4"><a href="index.html">Home</a> | Shirts | Socks | Hats</span></h1>
+    </header> -->
+   
+
+    <!-- Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cartModalLabel">Cart</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            
+            <div v-if="cart.length > 0">
+              <div class="row mx-auto">
+                <div class="col-6 fw-bold fs-5">Product</div>
+                <div class="col-6 fw-bold fs-5 text-end">Price</div>
+              </div>
+              <!-- <div v-for="(item, index) in cart">
+                <div class="row mx-auto">
+                  <div class="col-4">
+                    <p>
+                      {{cart[index].title}}<br>
+                      <span class="text-muted">Style: {{cart[index].style}}</span><br>
+                      <span>{{cart[index].qty}}</span>
+                    </p>
+                  </div>
+                  <div class="col-4">
+                    <button>+</button>
+                    <button>-</button>
+                  </div>
+                  <div class="col-4 text-end">
+                    <p>
+                      $ {{cart[index].price}} USD
+                    </p>
+                  </div>
+                  <hr>
+                </div>
+              </div> -->
+              <div v-for="(item, index) in cart">
+                <div class="row mx-auto">
+                  <div class="col-6">
+                    <p>
+                      {{cart[index].title}}<br>
+                      <span class="text-muted">SKU: {{cart[index].id}}</span>
+                    </p>
+                  </div>
+                  <!-- <div class="col-4">
+                    <button class="btn btn-light" @add-to-cart="updateCart">+</button>
+                    <button>-</button>
+                  </div> -->
+                  <div class="col-6 text-end">
+                    <p>
+                      $ {{cart[index].price}} USD
+                    </p>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+              <!-- {{cart[index].id}} {{cart[index].style}} -->
+              <div class="row mx-auto">
+                <div class="col-6"></div>
+                <div class="col-6 text-end">Total:<b>{{ totalCart }}</b></div>
+              </div>
+            </div>
+            <div v-else>
+              <p><i>You have no items in your cart!</i></p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success"
+            :disabled="!cart.length"
+            :class="{ disabledButton: !inStock }"
+            >Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPAREL SECTION -->
+    <section class="container-fluid pb-3">
+      <div class="row text-center mx-auto">
+        <h1 class="mt-5">Success!</h1>
+        <p class="lead fs-4 text-muted col-md-8 mx-auto">Your order has successfully been sent!</p>
+      </div>
+      <div class="mt-3 mb-5 col-2 mx-auto blue-break"></div>
+      <div class="row text-center mx-auto">
+        <div class="col-md-6 mx-auto">
+          <h2>Order#: {{ orderNum }}</h2>
+          <p class="mx-auto fs-5">Thank you for shopping with us! You order has been sent to our warehouse. An associate will carefully pack your items before they are shipped to you as soon as possible</p>
+          <p class="mx-auto fs-5">If you have any questions, please contact our Customer Service desk.</p>
+        </div>
+      </div>
+    </section>
+    <div class="mt-3 mb-5 col-2 mx-auto blue-break"></div>
+
+    <!-- REVIEW US SECTION-->
+    
+  </main>
+  <!-- FOOTER -->
+  <footer class="container-fluid text-center text-light bg-dark">
+    <p class="pt-4">Made with View.js</p>
+  </footer>
+  
+  <!-- VUE PACKAGE -->
+  <script src="https://unpkg.com/vue"></script>
+  <script src="main.js"></script>
+</body>
+</html>
