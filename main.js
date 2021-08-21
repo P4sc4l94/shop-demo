@@ -9,22 +9,22 @@ Vue.component('shirts', {
     </div>
 
     <div class="col-md-4 mx-auto product-info">
-      <h2>{{title}}</h2>
+      <h2 class="mt-3">{{title}}</h2>
       <p v-if="inStock" class="pb-0 mb-1">In Stock</p>
         <p v-else class="pb-0 mb-1"><span style="color:red">Out of Stock</span></p>
       <p>Qty. Available: {{shirts[selectedVariant].variantQty}}</p>
-      <p class="mb-1 pb-1 fs-5" style="color:steelblue"><b>$ {{ price }}</b></p>
+      <p class="mb-1 pb-1 fs-5" style="color:steelblue"><b>$ {{ shirts[selectedVariant].price }}</b></p>
 
       <div class="row mt-3 mb-3 mx-auto text-center">
         <div v-for="(shirt, index) in shirts" 
           :key="shirt.variantId"
           class="col-4 img-thumbnail"
           :style="{ backgroundImage: 'url(img/' + shirt.variantThumbnail + ')' }"
-          @mouseover="updateProduct(index)"> <!-- @ is shorthand for v-on -->
+          @click="updateProduct(index)"> <!-- @ is shorthand for v-on -->
         </div>
       </div>
-
-      <button v-on:click="addToCart"
+      
+            <button v-on:click="addToCart"
               class="btn btn-primary" 
               :disabled="!inStock"
               :class="{ disabledButton: !inStock }"
@@ -39,6 +39,7 @@ Vue.component('shirts', {
               >
             Remove from cart
             </button>
+        
       <!-- <p>{{shirts[0].variantId}}: {{shirts[0].qtyInCart}}</p>
       <p>{{shirts[1].variantId}}: {{shirts[1].qtyInCart}}</p>
       <p>{{shirts[2].variantId}}: {{shirts[2].qtyInCart}}</p>
@@ -71,6 +72,7 @@ Vue.component('shirts', {
           variantStyle:'apple',
           variantQty: 4,
           price: 12.99,
+          inStock: true,
           variantImage: 'img/img-shirt-apple.jpg',
           variantThumbnail: 'img-thumbnail-apple.jpg',
           qtyInCart: 0
@@ -81,6 +83,7 @@ Vue.component('shirts', {
           variantStyle:'stars',
           variantQty: 50,
           price: 10.99,
+          inStock: true,
           variantImage: 'img/img-shirt-stars.jpg',
           variantThumbnail: 'img-thumbnail-stars.jpg',
           qtyInCart: 0
@@ -91,6 +94,7 @@ Vue.component('shirts', {
           variantStyle:'peach',
           variantQty: 0,
           price: 8.99,
+          inStock: false,
           variantImage: 'img/img-shirt-peach.jpg',
           variantThumbnail: 'img-thumbnail-peach.jpg',
           qtyInCart: 0
@@ -101,38 +105,36 @@ Vue.component('shirts', {
   methods: {
     addToCart: function () {
       // this.cart += 1;
-      if(this.shirts[this.selectedVariant].variantQty === this.shirts[this.selectedVariant].qtyInCart) {
-        return
-      } else {
-        this.shirts[this.selectedVariant].qtyInCart += 1
-      }
-      let qty = this.shirts[this.selectedVariant].qtyInCart
-      
-      
-    let shirtsObj = {
-        id: this.shirts[this.selectedVariant].variantId,
-        price: this.shirts[this.selectedVariant].price,
-        style: this.shirts[this.selectedVariant].variantStyle,
-        title: this.shirts[this.selectedVariant].name,
-        qty
-      }
+      // if(this.shirts[this.selectedVariant].variantQty === this.shirts[this.selectedVariant].qtyInCart) {
+      //   return
+      // } else {
+      //   this.shirts[this.selectedVariant].qtyInCart += 1
+      // }
+      // let qty = this.shirts[this.selectedVariant].qtyInCart
+      // let shirtsObj = {
+      //     id: this.shirts[this.selectedVariant].variantId,
+      //     price: this.shirts[this.selectedVariant].price,
+      //     style: this.shirts[this.selectedVariant].variantStyle,
+      //     title: this.shirts[this.selectedVariant].name,
+      //     qty
+      //   }
 
-      this.$emit('add-to-cart', shirtsObj)
-      // this.$emit('add-to-cart', this.shirts[this.selectedVariant].variantId)
+      // this.$emit('add-to-cart', shirtsObj)
+      
+      this.$emit('add-to-cart', this.shirts[this.selectedVariant].variantId)
       /*when addToCart is run, emit an event by the name of “add-to-cart”. 
       In other words, when the “Add to Cart” button is clicked, this method fires,
       announcing that the click event just happened*/
     },
     removeFromCart: function () {
-      if(this.shirts[this.selectedVariant].qtyInCart === 0)
-      {
-        return
-      } else {
-        this.shirts[this.selectedVariant].qtyInCart -= 1
-      }
+      // if(this.shirts[this.selectedVariant].qtyInCart === 0)
+      // {
+      //   return
+      // } else {
+      //   this.shirts[this.selectedVariant].qtyInCart -= 1
+      // }
       
-      // this.shirts[this.selectedVariant].qtyInCart -= 1
-      
+      // this.$emit('remove-from-cart', this.shirts[this.selectedVariant].variantId)
       this.$emit('remove-from-cart', this.shirts[this.selectedVariant].variantId)
     },
     updateProduct: function (index) {
@@ -153,14 +155,14 @@ Vue.component('shirts', {
     inStock() {
       return this.shirts[this.selectedVariant].variantQty;
     },
-    price() {
-      return this.shirts[this.selectedVariant].price;
-    },
-    totalCalc() {
-      let totals = 0
-      totals = this.shirts[0].qtyInCart + this.shirts[1].qtyInCart + this.shirts[2].qtyInCart
-      return totals 
-    }
+    // price() {
+    //   return this.shirts[this.selectedVariant].price;
+    // },
+    // totalCalc() {
+    //   let totals = 0
+    //   totals = this.shirts[0].qtyInCart + this.shirts[1].qtyInCart + this.shirts[2].qtyInCart
+    //   return totals 
+    // }
   }
 })
 
@@ -174,34 +176,38 @@ Vue.component('socks', {
     </div>
 
     <div class="col-md-4 mx-auto product-info">
-      <h2>{{title}}</h2>
+      <h2 class="mt-3">{{title}}</h2>
       <p v-if="inStock" class="pb-0 mb-1">In Stock</p>
         <p v-else class="pb-0 mb-1"><span style="color:red">Out of Stock</span></p>
       <p>Qty. Available: {{socks[selectedVariant].variantQty}}</p>
-      <p class="mb-1 pb-1 fs-5" style="color:steelblue"><b>$ {{ price }}</b></p>
+      <p class="mb-1 pb-1 fs-5" style="color:steelblue"><b>$ {{ socks[selectedVariant].price }}</b></p>
 
       <div class="row mt-3 mb-3 mx-auto text-center">
         <div v-for="(sock, index) in socks" 
           :key="sock.variantId"
           class="col-4 img-thumbnail"
           :style="{ backgroundImage: 'url(img/' + sock.variantThumbnail + ')' }"
-          @mouseover="updateProduct(index)"> <!-- @ is shorthand for v-on -->
+          @click="updateProduct(index)"> <!-- @ is shorthand for v-on -->
         </div>
       </div>
 
-      <button v-on:click="addToCart" 
-        class="btn btn-primary mt-3 mb-4" 
-        :disabled="!inStock"
-        :class="{ disabledButton: !inStock }">
-        Add to Cart
-      </button> 
-      <!-- triggers the method addToCart every time the btn is clicked -->
-      <button @:click="removeFromCart"
-        class="btn btn-danger mt-3 mb-4"
-        :disabled="!inStock"
-        :class="{ disabledButton: !inStock }" >
-        Remove from Cart
-      </button>
+      <div class="my-4">
+        <button v-on:click="addToCart"
+              class="btn btn-primary" 
+              :disabled="!inStock"
+              :class="{ disabledButton: !inStock }"
+              >
+            Add to cart
+            </button>
+
+            <button v-on:click="removeFromCart"
+              class="btn btn-danger"
+              :disabled="!inStock"
+              :class="{ disabledButton: !inStock }" 
+              >
+            Remove from cart
+            </button>
+      </div>
     </div>
 
     <div class="col-md-4 mx-auto">
@@ -230,6 +236,7 @@ Vue.component('socks', {
         variantStyle:'stars',
         variantQty: 5,
         price: 3.99,
+        inStock: true,
         variantImage: 'img/img-socks-stars.jpg',
         variantThumbnail: 'img-thumbnail-stars.jpg',
         qtyInCart: 0
@@ -240,6 +247,7 @@ Vue.component('socks', {
           variantStyle:'peach',
           variantQty: 25,
           price: 5.99,
+          inStock: true,
           variantImage: 'img/img-socks-peach.jpg',
           variantThumbnail: 'img-thumbnail-peach.jpg',
           qtyInCart: 0
@@ -250,6 +258,7 @@ Vue.component('socks', {
           variantStyle:'apple',
           variantQty: 0,
           price: 6.99,
+          inStock: false,
           variantImage: 'img/img-socks-apple.jpg',
           variantThumbnail: 'img-thumbnail-apple.jpg',
           qtyInCart: 0
@@ -260,34 +269,35 @@ Vue.component('socks', {
   methods: {
     addToCart: function () {
       // this.cart += 1;
-      if(this.socks[this.selectedVariant].variantQty === this.socks[this.selectedVariant].qtyInCart) {
-        return
-      } else {
-        this.socks[this.selectedVariant].qtyInCart += 1
-      }
-      let qty = this.socks[this.selectedVariant].qtyInCart
+      // if(this.socks[this.selectedVariant].variantQty === this.socks[this.selectedVariant].qtyInCart) {
+      //   return
+      // } else {
+      //   this.socks[this.selectedVariant].qtyInCart += 1
+      // }
+      // let qty = this.socks[this.selectedVariant].qtyInCart
 
-      let socksObj = {
-        id: this.socks[this.selectedVariant].variantId,
-        price: this.socks[this.selectedVariant].price,
-        style: this.socks[this.selectedVariant].variantStyle,
-        title: this.socks[this.selectedVariant].name,
-        qty
-      }
-      this.$emit('add-to-cart', socksObj)
-      // this.$emit('add-to-cart', this.socks[this.selectedVariant].variantId)
+      // let socksObj = {
+      //   id: this.socks[this.selectedVariant].variantId,
+      //   price: this.socks[this.selectedVariant].price,
+      //   style: this.socks[this.selectedVariant].variantStyle,
+      //   title: this.socks[this.selectedVariant].name,
+      //   qty
+      // }
+      // this.$emit('add-to-cart', socksObj)
+      this.$emit('add-to-cart', this.socks[this.selectedVariant].variantId)
       /*when addToCart is run, emit an event by the name of “add-to-cart”. 
       In other words, when the “Add to Cart” button is clicked, this method fires,
       announcing that the click event just happened*/
     },
     removeFromCart: function() {
-      if(this.socks[this.selectedVariant].qtyInCart === 0)
-      {
-        return
-      } else {
-        this.socks[this.selectedVariant].qtyInCart -= 1
-      }
+      // if(this.socks[this.selectedVariant].qtyInCart === 0)
+      // {
+      //   return
+      // } else {
+      //   this.socks[this.selectedVariant].qtyInCart -= 1
+      // }
 
+      // this.$emit('remove-from-cart', this.socks[this.selectedVariant].variantId)
       this.$emit('remove-from-cart', this.socks[this.selectedVariant].variantId)
     },
     updateProduct: function (index) {
@@ -308,14 +318,14 @@ Vue.component('socks', {
     inStock() {
       return this.socks[this.selectedVariant].variantQty;
     },
-    price() {
-      return this.socks[this.selectedVariant].price;
-    },
-    totalCalc() {
-      let totals = 0
-      totals = this.socks[0].qtyInCart + this.socks[1].qtyInCart + this.socks[2].qtyInCart
-      return totals 
-    }
+    // price() {
+    //   return this.socks[this.selectedVariant].price;
+    // },
+    // totalCalc() {
+    //   let totals = 0
+    //   totals = this.socks[0].qtyInCart + this.socks[1].qtyInCart + this.socks[2].qtyInCart
+    //   return totals 
+    // }
   }
 })
 
@@ -329,7 +339,7 @@ Vue.component('hats', {
     </div>
 
     <div class="col-md-4 mx-auto product-info">
-      <h2>{{title}}</h2>
+      <h2 class="my-4">{{title}}</h2>
       <p v-if="inStock" class="pb-0 mb-1">In Stock</p>
         <p v-else class="pb-0 mb-1"><span style="color:red">Out of Stock</span></p>
       <p>Qty. Available: {{hats[selectedVariant].variantQty}}</p>
@@ -340,23 +350,26 @@ Vue.component('hats', {
           :key="hat.variantId"
           class="col-4 img-thumbnail"
           :style="{ backgroundImage: 'url(img/' + hat.variantThumbnail + ')' }"
-          @mouseover="updateProduct(index)"> <!-- @ is shorthand for v-on -->
+          @click="updateProduct(index)"> <!-- @ is shorthand for v-on -->
         </div>
       </div>
+      <div class="my-4">
+        <button v-on:click="addToCart"
+              class="btn btn-primary" 
+              :disabled="!inStock"
+              :class="{ disabledButton: !inStock }"
+              >
+            Add to cart
+            </button>
 
-      <button v-on:click="addToCart" 
-        class="btn btn-primary mt-3 mb-4" 
-        :disabled="!inStock"
-        :class="{ disabledButton: !inStock }">
-        Add to Cart
-      </button> 
-      <!-- triggers the method addToCart every time the btn is clicked -->
-      <button v-on:click="removeFromCart"
-        class="btn btn-danger mt-3 mb-4"
-        :disabled="!inStock"
-        :class="{ disabledButton: !inStock }" >
-        Remove from Cart
-      </button>
+            <button v-on:click="removeFromCart"
+              class="btn btn-danger"
+              :disabled="!inStock"
+              :class="{ disabledButton: !inStock }" 
+              >
+            Remove from cart
+            </button>
+      </div>
     </div>
 
     <div class="col-md-4 mx-auto">
@@ -385,6 +398,7 @@ Vue.component('hats', {
           variantStyle:'peach',
           variantQty: 25,
           price: 5.99,
+          inStock: true,
           variantImage: 'img/img-hats-peach.jpg',
           variantThumbnail: 'img-thumbnail-peach.jpg',
           qtyInCart: 0
@@ -395,6 +409,7 @@ Vue.component('hats', {
           variantStyle:'apple',
           variantQty: 0,
           price: 6.99,
+          inStock: false,
           variantImage: 'img/img-hats-apple.jpg',
           variantThumbnail: 'img-thumbnail-apple.jpg',
           qtyInCart: 0
@@ -405,6 +420,7 @@ Vue.component('hats', {
         variantStyle:'stars',
         variantQty: 5,
         price: 3.99,
+        inStock: true,
         variantImage: 'img/img-hats-stars.jpg',
         variantThumbnail: 'img-thumbnail-stars.jpg',
         qtyInCart: 0
@@ -415,33 +431,33 @@ Vue.component('hats', {
   methods: {
     addToCart: function () {
       // this.cart += 1;
-      if(this.hats[this.selectedVariant].variantQty === this.hats[this.selectedVariant].qtyInCart) {
-        return
-      } else {
-        this.hats[this.selectedVariant].qtyInCart += 1
-      }
-      let qty = this.hats[this.selectedVariant].qtyInCart
+      // if(this.hats[this.selectedVariant].variantQty === this.hats[this.selectedVariant].qtyInCart) {
+      //   return
+      // } else {
+      //   this.hats[this.selectedVariant].qtyInCart += 1
+      // }
+      // let qty = this.hats[this.selectedVariant].qtyInCart
 
-      let hatObj = {
-        id: this.hats[this.selectedVariant].variantId,
-        price: this.hats[this.selectedVariant].price,
-        style: this.hats[this.selectedVariant].variantStyle,
-        title: this.hats[this.selectedVariant].name,
-        qty
-      }
-      this.$emit('add-to-cart', hatObj)
-      // this.$emit('add-to-cart', this.hats[this.selectedVariant].variantId)
+      // let hatObj = {
+      //   id: this.hats[this.selectedVariant].variantId,
+      //   price: this.hats[this.selectedVariant].price,
+      //   style: this.hats[this.selectedVariant].variantStyle,
+      //   title: this.hats[this.selectedVariant].name,
+      //   qty
+      // }
+      // this.$emit('add-to-cart', hatObj)
+      this.$emit('add-to-cart', this.hats[this.selectedVariant].variantId)
       /*when addToCart is run, emit an event by the name of “add-to-cart”. 
       In other words, when the “Add to Cart” button is clicked, this method fires,
       announcing that the click event just happened*/
     },
     removeFromCart: function() {
-      if(this.hats[this.selectedVariant].qtyInCart === 0)
-      {
-        return
-      } else {
-        this.hats[this.selectedVariant].qtyInCart -= 1
-      }
+      // if(this.hats[this.selectedVariant].qtyInCart === 0)
+      // {
+      //   return
+      // } else {
+      //   this.hats[this.selectedVariant].qtyInCart -= 1
+      // }
 
       this.$emit('remove-from-cart', this.hats[this.selectedVariant].variantId)
     },
@@ -597,13 +613,18 @@ let app = new Vue({
     ]
   },
   methods: {
-    updateCart(obj) {
-      this.cart.push(obj)
+    updateCart(id) {
+      this.cart.push(id)
     },
     removeItem(id) {
-      let i = this.cart.lastIndexOf(id) + 2
-      this.cart = this.cart.slice(i, 1)
-      console.log(this.cart)
+      // let i = this.cart.lastIndexOf(id) + 2
+      // this.cart = this.cart.slice(i, 1)
+      // console.log(this.cart)
+      for(var i = this.cart.length - 1; i >= 0; i--) {
+        if (this.cart[i] === id) {
+           this.cart.splice(i, 1);
+        }
+      }
     },
     addReview: function (productReview) {
       this.reviews.push(productReview);
