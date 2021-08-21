@@ -47,7 +47,8 @@
           </ul>
         </div>
         <!-- Button trigger modal -->
-        <button style="float:right;" class="mt-3 btn btn-primary cart-nav-btn" data-bs-toggle="modal" data-bs-target="#cartModal" title="Check your cart">Cart: {{cart.length}}</button>
+        <!-- <button style="float:right;" class="mt-3 btn btn-primary cart-nav-btn" data-bs-toggle="modal" data-bs-target="#cartModal" title="Check your cart">Cart: {{cart.length}}</button> -->
+        <button style="float:right;" class="mt-3 btn btn-primary cart-nav-btn">Cart: {{cart.length}}</button>
       </div>
     </nav>
     <!-- <header class="container-fluid text-light">
@@ -92,7 +93,7 @@
                   <hr>
                 </div>
               </div> -->
-              <div v-for="(item, index) in cart">
+              <!-- <div v-for="(item, index) in cart">
                 <div class="row mx-auto">
                   <div class="col-6">
                     <p>
@@ -100,10 +101,6 @@
                       <span class="text-muted">SKU: {{cart[index].id}}</span>
                     </p>
                   </div>
-                  <!-- <div class="col-4">
-                    <button class="btn btn-light" @add-to-cart="updateCart">+</button>
-                    <button>-</button>
-                  </div> -->
                   <div class="col-6 text-end">
                     <p>
                       $ {{cart[index].price}} USD
@@ -111,12 +108,12 @@
                   </div>
                   <hr>
                 </div>
-              </div>
+              </div> -->
               <!-- {{cart[index].id}} {{cart[index].style}} -->
-              <div class="row mx-auto">
+              <!-- <div class="row mx-auto">
                 <div class="col-6"></div>
-                <div class="col-6 text-end">Total:<b>{{ totalCart }}</b></div>
-              </div>
+                <div class="col-6 text-end"><b>Total: $ {{ totalCart }} USD</b></div>
+              </div> -->
             </div>
             <div v-else>
               <p><i>You have no items in your cart!</i></p>
@@ -205,10 +202,10 @@
     <div class="container-fluid pt-5 review-container">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
-            <h3 class="mb-3 text-white">Reviews</h3>
-            <p class="fs-5 text-white"><i>Here's what people say about us!</i></p>
-            <p v-if="!reviews.length" class="text-white">There are no reviews yet.</p>
+          <div class="col-md-6 mb-5">
+            <h3 class="mb-3 text-white" style="font-size: 2.5em;">Reviews</h3>
+            <p class="fs-5 text-white mx-auto reviews-subhead"><i>Here's what people say about us!</i></p>
+            <p v-if="!reviews.length" class="text-white mx-auto reviews-subhead">There are no reviews yet.</p>
             <!-- <ul>
                 <li v-for="review in reviews">
                   <h5 style="color:steelblue">{{ review.name }}</h5>
@@ -218,7 +215,7 @@
                   <hr>
                 </li>
             </ul> -->
-            <div class="card review-cards mb-3" v-for="review in reviews">
+            <div class="card review-cards mb-3 mx-auto" v-for="review in reviews">
               <div class="card-body">
                 <p class="card-text text-muted"><small>{{ review.date }}</small></p>
                 <h5 class="card-title mt-2" style="color:steelblue">{{ review.name }}</h5>
@@ -228,7 +225,7 @@
             </div>
           </div>
           <div class="col-md-6 text-white">
-            <h3 class="text-white">Write a Review</h3>
+            <h3 class="text-white" style="font-size: 2.5em;">Write a Review</h3>
             <product-review @review-submitted="addReview"></product-review>
           </div>
         </div>
