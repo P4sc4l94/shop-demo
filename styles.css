@@ -66,6 +66,19 @@ div {
   min-width: 40px;
   margin-right: 10px;
   border-radius: 100%;
+  transition: box-shadow 0.25s;
+}
+
+.img-thumbnail:hover {
+  /* border: 2px solid rgb(46, 107, 156); */
+  /* box-shadow: rgba(0, 73, 122, 0.35) 1px 5px 15px; */
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(46, 107, 156) 0px 0px 0px 3px;
+}
+
+.img-thumbnail:active {
+  /* border: 2px solid steelblue; */
+  /* box-shadow: rgba(0, 73, 122, 0.35) 1px 5px 15px; */
+  box-shadow: rgba(46, 107, 156, 0.16) 0px 1px 4px, gold 0px 0px 0px 3px;
 }
 
 ul,
@@ -129,5 +142,9 @@ footer {
     height: 75px;
     margin: 0 auto;
     border-radius: 100%;
+  }
+
+  .reviews-subhead {
+    text-align: center;
   }
 }
