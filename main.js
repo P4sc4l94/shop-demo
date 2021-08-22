@@ -623,6 +623,7 @@ let app = new Vue({
       for(var i = this.cart.length - 1; i >= 0; i--) {
         if (this.cart[i] === id) {
            this.cart.splice(i, 1);
+           return
         }
       }
     },
