@@ -23,7 +23,7 @@ Vue.component('shirts', {
           @click="updateProduct(index)"> <!-- @ is shorthand for v-on -->
         </div>
       </div>
-      
+          <div class="my-4">
             <button v-on:click="addToCart"
               class="btn btn-primary" 
               :disabled="!inStock"
@@ -39,7 +39,7 @@ Vue.component('shirts', {
               >
             Remove from cart
             </button>
-        
+          </div>
       <!-- <p>{{shirts[0].variantId}}: {{shirts[0].qtyInCart}}</p>
       <p>{{shirts[1].variantId}}: {{shirts[1].qtyInCart}}</p>
       <p>{{shirts[2].variantId}}: {{shirts[2].qtyInCart}}</p>
